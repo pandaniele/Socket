@@ -5,14 +5,6 @@
  */
 package gestionesocket;
 
-/**
- *
- * @author pandl
- *
- * 
- * */
-
-
 import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
@@ -21,47 +13,63 @@ import java.util.logging.Logger;
 
 public class Client {
     
-    public static void main(String[] args){
-        
-        try {
-          DataOutputStream out;
+        DataOutputStream out;
           BufferedReader in;
-            
-                 
-            Socket client = new Socket(InetAddress.getLocalHost(),2000);
-             System.out.println(" 2) RICHIESTA CONNESSIONE DEL CLIENT IN CORSO \n");
-        // 
-             //stream di scrittura del socket
-             out= new DataOutputStream( client.getOutputStream());
-             
-             //stream di scrittura del socket
-            in= new BufferedReader( new InputStreamReader(client.getInputStream()));
-            
-            String stringaRicevuta;
-            stringaRicevuta=in.readLine();
-                      System.out.println("5) MESSAGGIO DEL SERVER: " +stringaRicevuta+"\n");
-                      
-                    String messaggioBenevnuto="MI DAI DATA E ORA?";
-         out.writeBytes(messaggioBenevnuto+"\r\n");
-              System.out.println("6) INVIO RICHIEsta data e ora \n");
-              out.flush();
-            
-            stringaRicevuta=in.readLine();
-                      System.out.println("9) LA DATA RICEVUTA E': " +stringaRicevuta+"\n");
-              
-              
-                client.close();
-                System.out.println("10)CONNESSIONE TERMINATA \n");
-        }
-       
-        
-    
-        catch (UnknownHostException ex) {
-              System.out.println("HOST SCONOSCIUTO \n");
+    Socket client;
+     BufferedReader tastiera;
+    String stringaRicevuta;
+    public Client(InetAddress a, int porta){
+            try {
+                  tastiera=new BufferedReader(new InputStreamReader(System.in));
+                  
+                client= new Socket(a,porta);
+                System.out.println(" 2) RICHIESTA CONNESSIONE DEL CLIENT IN CORSO \n");
+                
+                //stream di scrittura del socket
+                out= new DataOutputStream( client.getOutputStream());
+                
+                //stream di scrittura del socket
+                in= new BufferedReader( new InputStreamReader(client.getInputStream()));
+            } catch (UnknownHostException ex) {
+                  System.out.println(" CLIENT: HOST SCONOSCIUTO \n");
             }
-           catch (Exception ex) {
-          System.out.println("ERRORE DURANTE LA CONNESISONE \n");
+            catch(IOException ex){
+                System.out.println(" CLIENT: ERRORE GENERALE IN FASE DI CONNESSIONE  \n");
             }
     }
+    
+    public void scrivi(){
+            try {
+                 System.out.println(" CLIENT: COSA VUOI MANDARE AL SERVER?  \n");
+               // String messaggioBenevnuto="MI DAI DATA E ORA?";
+                out.writeBytes(tastiera.readLine()+"\r\n");
+                System.out.println("6) INVIO MESSAGGIO:"+ tastiera.readLine()+"\n");
+                out.flush();
+            } catch (IOException ex) {
+               System.out.println(" CLIENT: ERORE DI SCRITTURA  \n");
+            }
+    }
+    
+      public void leggi(){
+            try {
+                stringaRicevuta=in.readLine();
+                 System.out.println("5 OR 9) CLIENT: IL MESSAGGIO DEL SERVER E' : " +stringaRicevuta+"\n");
+            } catch (IOException ex) {
+               System.out.println(" CLIENT: ERRORE DI RICEVIMENTO"+ "\n");
+            }
+                     
+                   /*  stringaRicevuta=in.readLine();
+                      System.out.println("9) LA DATA RICEVUTA E': " +stringaRicevuta+"\n");*/
+    }
+        
+      public void chiudi(){        
+            try {
+                client.close();  
+                System.out.println("10)CONNESSIONE TERMINATA \n");
+            } catch (Exception ex) {
+               System.out.println("CLIENT: ERRORE DI CHIUSURA \n");
+            }
+           }
+
     
 }

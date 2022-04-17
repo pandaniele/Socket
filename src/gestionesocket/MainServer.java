@@ -15,7 +15,21 @@ public class MainServer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+       Server ss=new Server(2000);
+       
+       ss.attendi();
+       
+       ss.scrivi();
+       
+       ss.leggi();
+       
+        ss.scrivi();
+        
+       
+       ss.chiudiConnessione();
+       
+     //  ss.chiudiServer();
+       
     }
     
 }

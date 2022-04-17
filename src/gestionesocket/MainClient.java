@@ -5,6 +5,11 @@
  */
 package gestionesocket;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author pandl
@@ -15,7 +20,21 @@ public class MainClient {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            Client cc=new Client(InetAddress.getLocalHost(), 2000);
+            
+        
+            cc.leggi();
+            
+                cc.scrivi();
+              
+                    cc.leggi();
+            
+                
+            cc.chiudi();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
