@@ -8,7 +8,11 @@ package gestionesocket;
 /**
  *
  * @author pandl
- */
+ *
+ * 
+ * */
+
+
 import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
@@ -23,7 +27,7 @@ public class Client {
           DataOutputStream out;
           BufferedReader in;
             
-                         
+                 
             Socket client = new Socket(InetAddress.getLocalHost(),2000);
              System.out.println(" 2) RICHIESTA CONNESSIONE DEL CLIENT IN CORSO \n");
         // 
